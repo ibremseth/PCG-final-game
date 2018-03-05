@@ -18,18 +18,36 @@ public class GameMain extends Application  {
 	
 	// TODO Auto-generated method stub
 	final String appName = "Homework 5: The Rough Draft";
-	final int FPS = 40; // frames per second
-	static int WIDTH = 600;
-	static int HEIGHT = 500;
+	final int FPS = 25; // frames per second
+	final static double WIDTH = 800;
+	final static double HEIGHT = 600;
+	
+	GameGrid grid;
 
 	GraphicsContext gc;
 	
 	/**
 	 * Set up initial data structures/values
 	 */
+
 	void initialize()
 	{
+		grid = new GameGrid();
+		Level1();
 	}
+	
+	void Level1() {
+		// create floor
+		for (int i = 0; i < GameGrid.MWIDTH; i++)
+			grid.createBlock(i, GameGrid.MHEIGHT-1);
+
+		// Now place specific blocks (depends on current map size)
+		grid.createBlock(10,13);
+		grid.createBlock(11,13); grid.createBlock(11,12);
+		grid.createBlock(12,13); grid.createBlock(12,12); grid.createBlock(12,11);
+		
+	}
+	
 	
 	void setHandlers(Scene scene)
 	{
@@ -60,6 +78,7 @@ public class GameMain extends Application  {
 		gc.setFill(Color.CYAN);
 		gc.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		grid.render(gc);
 	}
 
 	/*
