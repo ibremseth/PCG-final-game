@@ -4,7 +4,7 @@ import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 public class GameGrid {
-	public static final int MWIDTH = 20;
+	public static final int MWIDTH = 40;
 	public static final int MHEIGHT = 15;
 	int map[][] = new int[MWIDTH][MHEIGHT];
 	static final int CELLSIZE = 40; // Number of pixels per map cell
@@ -14,6 +14,11 @@ public class GameGrid {
 		for (int row = 0; row < MHEIGHT; row++)
 		 for (int col = 0; col < MWIDTH; col++)
 			map[col][row] = 0;
+	}
+	
+	public int width()
+	{
+		return MWIDTH*CELLSIZE;
 	}
 	
 	public void createBlock(int x, int y)
@@ -80,10 +85,14 @@ public class GameGrid {
 	public void render(GraphicsContext gc)
 	{
 		gc.setFill(Color.BLACK);
+		// Just draw visible blocks
+		int col1 = (GameMain.vleft)/CELLSIZE;
+		int col2 = (GameMain.vleft + GameMain.VWIDTH)/CELLSIZE;
+		if (col2 >= MWIDTH)
+			col2 = MWIDTH-1;
 		for (int row = 0; row < MHEIGHT; row++)
-		 for (int col = 0; col < MWIDTH; col++)
+		 for (int col = col1; col <= col2; col++)
 			if (map[col][row] == 1)
-				gc.fillRect(col*CELLSIZE, row*CELLSIZE, CELLSIZE, CELLSIZE);
+				gc.fillRect(col*CELLSIZE-GameMain.vleft, row*CELLSIZE, CELLSIZE, CELLSIZE);
 	}
-
 }

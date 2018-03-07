@@ -19,12 +19,14 @@ public class GameMain extends Application  {
 	// TODO Auto-generated method stub
 	final String appName = "Homework 5: The Rough Draft";
 	final int FPS = 25; // frames per second
-	final static double WIDTH = 800;
-	final static double HEIGHT = 600;
+	final static int VWIDTH = 800;
+	final static int VHEIGHT = 600;
+	public static final int SCROLL = 50;  // Set edge limit for scrolling
+	public static int vleft = 0;	// Pixel coord of left edge of viewable
 	
 	GameGrid grid;
 	Hero h;
-	
+	Powerup p;
 	GraphicsContext gc;
 	
 	/**
@@ -35,7 +37,7 @@ public class GameMain extends Application  {
 	{
 		grid = new GameGrid();
 		Level1();
-		h = new Hero(80, 400, grid);
+		h = new Hero(150, 400, grid);
 	}
 	
 	void Level1() {
@@ -48,6 +50,9 @@ public class GameMain extends Application  {
 		grid.createBlock(11,13); grid.createBlock(11,12);
 		grid.createBlock(12,13); grid.createBlock(12,12); grid.createBlock(12,11);
 		grid.createBlock(13, 13);
+		grid.createBlock(16,13); grid.createBlock(16,12); grid.createBlock(16,11);grid.createBlock(16, 10);
+		
+		p = new Powerup(0,11,Powerup.JUMP);
 	}
 	
 	
@@ -95,6 +100,28 @@ public class GameMain extends Application  {
 	public void update()
 	{
 		h.update();
+		p.update();
+		if(p.pickup(h.collisionBox())) {
+			h.getPowerup(p);
+		}
+		checkScrolling();
+	}
+	
+	void checkScrolling()
+	{
+		// Test if hero is at edge of view window and scroll appropriately
+		if (h.x < (vleft+SCROLL))
+		{
+			vleft = (int)h.x-SCROLL;
+			if (vleft < 0)
+				vleft = 0;
+		}
+		if ((h.x + h.width) > (vleft+VWIDTH-SCROLL))
+		{
+			vleft = (int)h.x+h.width-VWIDTH+SCROLL;
+			if (vleft > (grid.width()-VWIDTH))
+				vleft = grid.width()-VWIDTH;
+		}
 	}
 
 	/**
@@ -103,11 +130,11 @@ public class GameMain extends Application  {
 	void render(GraphicsContext gc) {
 		// fill background
 		gc.setFill(Color.CYAN);
-		gc.fillRect(0, 0, WIDTH, HEIGHT);
+		gc.fillRect(0, 0, VWIDTH, VHEIGHT);
 		
 		grid.render(gc);
 		h.render(gc);
-		
+		p.render(gc);
 	}
 
 	/*
@@ -126,7 +153,7 @@ public class GameMain extends Application  {
 		Scene theScene = new Scene(root);
 		theStage.setScene(theScene);
 
-		Canvas canvas = new Canvas(WIDTH, HEIGHT);
+		Canvas canvas = new Canvas(VWIDTH, VHEIGHT);
 		root.getChildren().add(canvas);
 
 		gc = canvas.getGraphicsContext2D();

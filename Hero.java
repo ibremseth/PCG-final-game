@@ -8,8 +8,10 @@ public class Hero {
 	
 	public double x,y;
 	public int power;
+	public int power_count;
 	public int width = 40;
 	public int height = 60;
+	public Color color;
 	public int dx = 0, dy = 0;
 	public int dir = 0;
 	public int inair = 0;
@@ -21,7 +23,9 @@ public class Hero {
 		y = start_y;
 		g = grid;
 		power = 0;
+		power_count = 0;
 		dx = 10;
+		color = Color.BLUE;
 	}
 	
 	public void setDir(int d) {
@@ -30,9 +34,19 @@ public class Hero {
 	
 	public void jump() {
 		if(inair == 0) {
-			dy = -30;
+			if(power == Powerup.JUMP) {
+				dy = -40;
+			} else {
+				dy = -30;
+			}
 			inair = 1;
 		}
+	}
+	
+	public void getPowerup(Powerup p) {
+		color = p.color;
+		power = p.type;
+		power_count = 50;
 	}
 	
 	public BoundingBox collisionBox()
@@ -54,10 +68,15 @@ public class Hero {
 		} else {
 			inair = 1;
 		}
+		
+		if(power_count-- <=0) {
+			power = 0;
+			color = Color.BLUE;
+		}
 	}
 
 	public void render(GraphicsContext gc) {
-		gc.setFill(Color.GREEN);
-		gc.fillOval(x, y, width, height);
+		gc.setFill(color);
+		gc.fillOval(x-GameMain.vleft, y, width, height);
 	}
 }
