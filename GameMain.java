@@ -23,7 +23,8 @@ public class GameMain extends Application  {
 	final static double HEIGHT = 600;
 	
 	GameGrid grid;
-
+	Hero h;
+	
 	GraphicsContext gc;
 	
 	/**
@@ -34,6 +35,7 @@ public class GameMain extends Application  {
 	{
 		grid = new GameGrid();
 		Level1();
+		h = new Hero(80, 400, grid);
 	}
 	
 	void Level1() {
@@ -45,7 +47,7 @@ public class GameMain extends Application  {
 		grid.createBlock(10,13);
 		grid.createBlock(11,13); grid.createBlock(11,12);
 		grid.createBlock(12,13); grid.createBlock(12,12); grid.createBlock(12,11);
-		
+		grid.createBlock(13, 13);
 	}
 	
 	
@@ -55,6 +57,31 @@ public class GameMain extends Application  {
 				e -> {
 						String s = e.getCode().toString();
 						switch (s) {
+						case "LEFT" :
+							h.setDir(-1);
+							break;
+						case "RIGHT" :
+							h.setDir(1);
+							break;
+						case "UP" :
+							h.jump();
+							break;
+						default:
+							break;
+						}
+					}
+				);
+		
+		scene.setOnKeyReleased(
+				e -> {
+						String s = e.getCode().toString();
+						switch (s) {
+						case "LEFT" :
+							h.setDir(0);
+							break;
+						case "RIGHT" :
+							h.setDir(0);
+							break;
 						default:
 							break;
 						}
@@ -67,7 +94,7 @@ public class GameMain extends Application  {
 	 */
 	public void update()
 	{
-		
+		h.update();
 	}
 
 	/**
@@ -79,6 +106,8 @@ public class GameMain extends Application  {
 		gc.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		grid.render(gc);
+		h.render(gc);
+		
 	}
 
 	/*
