@@ -48,7 +48,7 @@ public class Hero {
 	public void getPowerup(Powerup p) {
 		color = p.color;
 		power = p.type;
-		power_count = 50;
+		power_count = 150;
 	}
 	
 	public BoundingBox collisionBox()

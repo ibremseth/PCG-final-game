@@ -17,7 +17,9 @@ public class Powerup {
 	static final int NORMAL = 1;
 	static final int SMALL = 2;
 	static final int NORMALA = 4;
-	static final int JUMP = 1;
+	static final int ENDLEVEL = 1;
+	static final int JUMP = 2;
+	static final int ATTACK = 3;
 	
 	public Powerup(int place_x, int place_y, int t) {
 		x = place_x;
@@ -27,6 +29,12 @@ public class Powerup {
 		switch(t) {
 		case JUMP:
 			color = Color.GREEN;
+			break;
+		case ENDLEVEL:
+			color = Color.GOLD;
+			break;
+		case ATTACK:
+			color = Color.ORANGE;
 			break;
 		default:
 			break;

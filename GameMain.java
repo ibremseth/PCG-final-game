@@ -23,13 +23,15 @@ public class GameMain extends Application  {
 	final int FPS = 25; // frames per second
 	final static int VWIDTH = 800;
 	final static int VHEIGHT = 600;
-	public static final int SCROLL = 50;  // Set edge limit for scrolling
+	public static final int SCROLL = 150;  // Set edge limit for scrolling
 	public static int vleft = 0;	// Pixel coord of left edge of viewable
 	
 	GameGrid grid;
 	Hero h;
-	Powerup p;
+	Powerup p[];
+	BadGuy bg[];
 	GraphicsContext gc;
+	int level = 2;
 	
 	/**
 	 * Set up initial data structures/values
@@ -37,26 +39,12 @@ public class GameMain extends Application  {
 
 	void initialize()
 	{
-		grid = new GameGrid();
-		Level1();
+		Level l = new Level(level);
+		grid = l.grid();
+		p = l.powerups();
+		bg = l.badguys();
 		h = new Hero(150, 400, grid);
 	}
-	
-	void Level1() {
-		// create floor
-		for (int i = 0; i < GameGrid.MWIDTH; i++)
-			grid.createBlock(i, GameGrid.MHEIGHT-1);
-
-		// Now place specific blocks (depends on current map size)
-		grid.createBlock(10,13);
-		grid.createBlock(11,13); grid.createBlock(11,12);
-		grid.createBlock(12,13); grid.createBlock(12,12); grid.createBlock(12,11);
-		grid.createBlock(13, 13);
-		grid.createBlock(16,13); grid.createBlock(16,12); grid.createBlock(16,11);grid.createBlock(16, 10);
-		
-		p = new Powerup(0,11,Powerup.JUMP);
-	}
-	
 	
 	void setHandlers(Scene scene)
 	{
@@ -102,9 +90,22 @@ public class GameMain extends Application  {
 	public void update()
 	{
 		h.update();
-		p.update();
-		if(p.pickup(h.collisionBox())) {
-			h.getPowerup(p);
+		for(Powerup i : p) {
+			i.update();
+			if(i.pickup(h.collisionBox())) {
+				if(i.type == Powerup.ENDLEVEL) {
+					level++;
+					initialize();
+				} else {
+					h.getPowerup(i);
+				}
+			}
+		}
+		for(BadGuy b : bg) {
+			b.update();
+			if(b.kills(h)) {
+				initialize();
+			}
 		}
 		checkScrolling();
 	}
@@ -136,7 +137,12 @@ public class GameMain extends Application  {
 		
 		grid.render(gc);
 		h.render(gc);
-		p.render(gc);
+		for(Powerup i : p) {
+			i.render(gc);
+		}
+		for(BadGuy b : bg) {
+			b.render(gc);
+		}
 	}
 
 	/*
