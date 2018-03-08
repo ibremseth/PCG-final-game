@@ -11,12 +11,13 @@ public class Hero {
 	public double x,y;
 	public int power;
 	public int power_count;
-	public int width = 40;
+	public int width = 39;
 	public int height = 60;
 	public Color color;
 	public int dx = 0, dy = 0;
 	public int dir = 0;
 	public int inair = 0;
+	public int lives;
 	public GameGrid g;
 	static final int GRAVITY = 4;
 	
@@ -28,16 +29,30 @@ public class Hero {
 		power_count = 0;
 		dx = 10;
 		color = Color.BLUE;
+		
+		lives = 2;
+	}
+	
+	public Hero resetHero(int start_x, int start_y, GameGrid grid) {
+		x = start_x;
+		y = start_y;
+		g = grid;
+		power = 0;
+		power_count = 0;
+		dx = 10;
+		color = Color.BLUE;
+		
+		return this;
 	}
 	
 	public void setDir(int d) {
 		dir = d;
 	}
 	
-	public void jump() {
-		if(inair == 0) {
+	public void jump(boolean override) {
+		if((inair == 0) || override) {
 			if(power == Powerup.JUMP) {
-				dy = -40;
+				dy = -39;
 			} else {
 				dy = -30;
 			}
@@ -54,6 +69,15 @@ public class Hero {
 	public BoundingBox collisionBox()
 	{
 		return new BoundingBox(x, y, width, height);
+	}
+	
+	public boolean die() {
+		if(lives-- < 0) {
+			lives = 2;
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public void update() {

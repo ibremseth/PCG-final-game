@@ -37,7 +37,8 @@ public class BadGuy {
 			return false;
 		}
 		if(h.collisionBox().intersects(collisionBox())) {
-			if((h.y - h.dy < y) && (h.power == Powerup.ATTACK)) {
+			if((h.y + h.height - h.dy < y) && (h.power == Powerup.ATTACK)) {
+				h.jump(true);
 				alive = false;
 				count = 100;
 				return false;

@@ -43,7 +43,15 @@ public class GameMain extends Application  {
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
-		h = new Hero(150, 400, grid);
+		h = new Hero(100, 400, grid);
+	}
+	
+	void resetLevel() {
+		Level l = new Level(level);
+		grid = l.grid();
+		p = l.powerups();
+		bg = l.badguys();
+		h = h.resetHero(100, 400, grid);
 	}
 	
 	void setHandlers(Scene scene)
@@ -59,7 +67,7 @@ public class GameMain extends Application  {
 							h.setDir(1);
 							break;
 						case "UP" :
-							h.jump();
+							h.jump(false);
 							break;
 						default:
 							break;
@@ -104,7 +112,11 @@ public class GameMain extends Application  {
 		for(BadGuy b : bg) {
 			b.update();
 			if(b.kills(h)) {
-				initialize();
+				if(h.die()) {
+					level = 1;
+					initialize();
+				} 
+				resetLevel();
 			}
 		}
 		checkScrolling();
@@ -135,13 +147,24 @@ public class GameMain extends Application  {
 		gc.setFill(Color.CYAN);
 		gc.fillRect(0, 0, VWIDTH, VHEIGHT);
 		
+		gc.setFill(Color.RED);
+		for(int i = 0; i <= h.lives; i++) {
+			gc.fillOval((1+i)*GameGrid.CELLSIZE, 30, 10, 10);
+		}
+		
+		gc.setFill(Color.BLACK);
+		gc.fillText("Level "+level, VWIDTH-100, 30);
+		
 		grid.render(gc);
 		h.render(gc);
-		for(Powerup i : p) {
-			i.render(gc);
-		}
 		for(BadGuy b : bg) {
 			b.render(gc);
+		}
+		for(Powerup i : p) {
+			i.render(gc);
+			if(Math.abs((i.x*GameGrid.CELLSIZE) - h.x) <= 100) {
+				i.renderInfo(gc);
+			}
 		}
 	}
 
