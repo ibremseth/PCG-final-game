@@ -127,5 +127,8 @@ public class Powerup {
 		int locx = x*GameGrid.CELLSIZE;
 		int locy = y*GameGrid.CELLSIZE;
 		gc.fillOval(locx-GameMain.vleft+(GameGrid.CELLSIZE/2)-(diam/2), locy+(GameGrid.CELLSIZE/2)-(diam/2), diam, diam);
+		gc.setStroke(Color.BLACK);
+		gc.setLineWidth(3);
+		gc.strokeOval(locx-GameMain.vleft+(GameGrid.CELLSIZE/2)-(diam/2), locy+(GameGrid.CELLSIZE/2)-(diam/2), diam, diam);
 	}
 }

@@ -105,10 +105,15 @@ public class Hero {
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
 		gc.fillOval(x-GameMain.vleft, y, width, height);
+		gc.setStroke(Color.BLACK);
+		gc.setLineWidth(3);
+		gc.strokeOval(x-GameMain.vleft, y, width, height);
+		
 		
 		if(power != 0) {
 			gc.setFill(color);
 			gc.fillArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
+			gc.strokeArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
 		}
 	}
 }
