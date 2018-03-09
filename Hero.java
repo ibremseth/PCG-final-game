@@ -6,6 +6,7 @@ import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.image.Image;
 
 public class Hero {
 	
@@ -19,10 +20,13 @@ public class Hero {
 	public int dir = 0;
 	public int inair = 0;
 	public int lives;
+	Image left;
+	Image right;
+	Image cur;
 	public GameGrid g;
 	static final int GRAVITY = 4;
 	
-	public Hero(int start_x, int start_y, GameGrid grid) {
+	public Hero(int start_x, int start_y, GameGrid grid, Image lwiz, Image rwiz) {
 		x = start_x;
 		y = start_y;
 		g = grid;
@@ -30,6 +34,9 @@ public class Hero {
 		power_count = 0;
 		dx = 10;
 		color = Color.BLUE;
+		left = lwiz;
+		right = rwiz;
+		cur = right;
 		
 		lives = 2;
 	}
@@ -48,6 +55,11 @@ public class Hero {
 	
 	public void setDir(int d) {
 		dir = d;
+		if(dir > 0) {
+			cur = right;
+		} else if (dir < 0){
+			cur = left;
+		}
 	}
 	
 	public void jump(boolean override) {
@@ -104,15 +116,13 @@ public class Hero {
 
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
-		gc.fillOval(x-GameMain.vleft, y, width, height);
-		gc.setStroke(Color.BLACK);
-		gc.setLineWidth(3);
-		gc.strokeOval(x-GameMain.vleft, y, width, height);
-		
+		gc.drawImage(cur, x-GameMain.vleft-90, y-190);
 		
 		if(power != 0) {
 			gc.setFill(color);
 			gc.fillArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
+			gc.setStroke(Color.BLACK);
+			gc.setLineWidth(3);
 			gc.strokeArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
 		}
 	}
