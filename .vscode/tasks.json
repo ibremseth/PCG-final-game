@@ -1,0 +1,42 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "verify",
+            "type": "shell",
+            "command": "mvn -B verify",
+            "group": "build"
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "mvn -B test",
+            "group": "test"
+        },
+        {
+            "taskName": "JC",
+            "command": "java",
+            "windows": {
+                "command": "C:\\Program Files\\RedHat\\java-1.8.0-openjdk-1.8.0.161-1\\bin\\javac.exe"
+            },
+
+            "args": [
+                "${file}"
+            ]
+        },
+        {
+            "taskName": "JR",
+            "command": "java",
+            "windows": {
+                "command": "C:\\Program Files\\RedHat\\java-1.8.0-openjdk-1.8.0.161-1\\bin\\java.exe"
+            },
+
+            "args": [
+                "${fileBasenameNoExtension}"
+            ]
+        }
+        
+    ]
+}

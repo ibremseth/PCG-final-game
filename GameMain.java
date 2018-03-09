@@ -1,6 +1,7 @@
 package game;
 
-// Isaac
+// Isaac... is a bitch "hahaha"
+// Trying to get this committed
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
