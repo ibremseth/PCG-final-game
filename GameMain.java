@@ -1,6 +1,23 @@
 package game;
 
-// Isaac
+/*
+ * Written by: Isaac Bremseth and Mitchell Shreiner
+ * 
+ * Use arrows to move and up arrow to jump. 
+ * 
+ * Level 1: Use green circle power up to jump higher and over the walls
+ * 
+ * Level 2: Use red circle power up to jump on monsters heads to kill them.
+ * 
+ * Level 3: Use red power up to jump on monster head right next to platform and them off the bounce land on the platform. 
+ * Then get the green power up and jump over the tall wall.
+ * 
+ * End Level: You won!
+ * 
+ * Jump into the power ups to activate them. Jump into the gold power up to go to the next level.
+ * 
+ * 
+ */
 
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -10,7 +27,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
