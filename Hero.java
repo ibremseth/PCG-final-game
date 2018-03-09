@@ -6,6 +6,7 @@ import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.image.Image;
 
 public class Hero {
 	
@@ -19,10 +20,11 @@ public class Hero {
 	public int dir = 0;
 	public int inair = 0;
 	public int lives;
+	Image wizard;
 	public GameGrid g;
 	static final int GRAVITY = 4;
 	
-	public Hero(int start_x, int start_y, GameGrid grid) {
+	public Hero(int start_x, int start_y, GameGrid grid, Image wiz) {
 		x = start_x;
 		y = start_y;
 		g = grid;
@@ -30,6 +32,7 @@ public class Hero {
 		power_count = 0;
 		dx = 10;
 		color = Color.BLUE;
+		wizard = wiz;
 		
 		lives = 2;
 	}
@@ -104,11 +107,14 @@ public class Hero {
 
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
-		gc.fillOval(x-GameMain.vleft, y, width, height);
+		gc.drawImage(wizard, x-GameMain.vleft, y-50);
 		
 		if(power != 0) {
 			gc.setFill(color);
 			gc.fillArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
+			gc.setStroke(Color.BLACK);
+			gc.setLineWidth(3);
+			gc.strokeArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
 		}
 	}
 }

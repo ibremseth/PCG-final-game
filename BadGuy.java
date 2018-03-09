@@ -3,17 +3,19 @@ package game;
 import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 public class BadGuy {
 	public double x, y;
 	public int dx;
 	public boolean alive;
 	public int count;
+	Image image;
 	public GameGrid g;
 
 	public int height, width;
 	
-	public BadGuy(double start_x, double start_y, GameGrid grid) {
+	public BadGuy(double start_x, double start_y, GameGrid grid, Image img) {
 		x = start_x;
 		y = start_y;
 		dx = 6;
@@ -22,6 +24,7 @@ public class BadGuy {
 		alive = true;
 		g = grid;
 		count = 0;
+		image = img;
 	}
 	
 	public BoundingBox collisionBox()
@@ -60,7 +63,7 @@ public class BadGuy {
 	public void render(GraphicsContext gc) {
 		if(alive) {
 			gc.setFill(Color.MAGENTA);
-			gc.fillRect(x-GameMain.vleft, y, width, height);
+			gc.drawImage(image, x-GameMain.vleft, y);
 		}
 	}
 

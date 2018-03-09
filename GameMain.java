@@ -39,6 +39,7 @@ public class GameMain extends Application  {
 	GameGrid grid;
 	Image background;
 	Image block;
+	Image goblin;
 	Hero h;
 	Powerup p[];
 	BadGuy bg[];
@@ -54,16 +55,18 @@ public class GameMain extends Application  {
 
 		background = new Image("background.png");
 		block = new Image("block.png");
+		Image wiz = new Image("wizard.png", 70, 120, false, false);
+		goblin = new Image("goblin.png", 40, 80, false, false);
 		
-		Level l = new Level(level, block);
+		Level l = new Level(level, block, goblin);
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
-		h = new Hero(100, 400, grid);
+		h = new Hero(100, 400, grid, wiz);
 	}
 	
 	void resetLevel() {
-		Level l = new Level(level, block);
+		Level l = new Level(level, block, goblin);
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
