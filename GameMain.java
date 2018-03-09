@@ -1,6 +1,6 @@
 package game;
 
-// Isaac... is a bitch "hahaha"
+// Isaac... is a _______ "hahaha"
 // Trying to get this committed
 
 import javafx.animation.Animation;
@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -26,6 +27,9 @@ public class GameMain extends Application  {
 	final static int VHEIGHT = 600;
 	public static final int SCROLL = 150;  // Set edge limit for scrolling
 	public static int vleft = 0;	// Pixel coord of left edge of viewable
+	Image HeroGoingLeft, HeroGoingRight;
+	Image[] heroImages = {new Image("Left.png"), new Image("Right.png")};
+
 	
 	GameGrid grid;
 	Hero h;
@@ -45,6 +49,7 @@ public class GameMain extends Application  {
 		p = l.powerups();
 		bg = l.badguys();
 		h = new Hero(100, 400, grid);
+		h.setImages(heroImages);
 	}
 	
 	void resetLevel() {
@@ -158,6 +163,7 @@ public class GameMain extends Application  {
 		
 		grid.render(gc);
 		h.render(gc);
+		
 		for(BadGuy b : bg) {
 			b.render(gc);
 		}

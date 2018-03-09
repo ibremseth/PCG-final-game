@@ -1,5 +1,6 @@
 package game;
 
+
 //Isaac
 
 import javafx.geometry.BoundingBox;
@@ -20,6 +21,7 @@ public class Hero {
 	public int lives;
 	public GameGrid g;
 	static final int GRAVITY = 4;
+	javafx.scene.image.Image right, left;
 	
 	public Hero(int start_x, int start_y, GameGrid grid) {
 		x = start_x;
@@ -43,6 +45,10 @@ public class Hero {
 		color = Color.BLUE;
 		
 		return this;
+	}
+	public void setImages(javafx.scene.image.Image[] images){
+		left = images[0];
+		right = images[1];
 	}
 	
 	public void setDir(int d) {
@@ -103,6 +109,7 @@ public class Hero {
 
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
-		gc.fillOval(x-GameMain.vleft, y, width, height);
+		//gc.fillOval(x-GameMain.vleft, y, width, height);
+		gc.drawImage(right, x-GameMain.vleft, y);
 	}
 }
