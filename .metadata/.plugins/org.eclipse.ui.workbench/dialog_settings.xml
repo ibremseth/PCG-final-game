@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="workingset_selection_history">
+		<item value="PCG-final-game"/>
+	</list>
 	<section name="org.eclipse.ui.internal.QuickAccess">
 		<item value="-1" key="dialogHeight"/>
 		<item value="-1" key="dialogWidth"/>
@@ -11,5 +14,7 @@
 		</list>
 		<list key="textArray">
 		</list>
+	</section>
+	<section name="ImportExportAction">
 	</section>
 </section>
