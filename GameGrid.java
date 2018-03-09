@@ -5,17 +5,24 @@ package game;
 import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+
+
 public class GameGrid {
-	public static final int MWIDTH = 50;
+	public static final int MWIDTH = 40;
 	public static final int MHEIGHT = 15;
 	int map[][] = new int[MWIDTH][MHEIGHT];
 	static final int CELLSIZE = 40; // Number of pixels per map cell
 	
-	public GameGrid()
+	Image image;
+	
+	public GameGrid(Image i)
 	{
 		for (int row = 0; row < MHEIGHT; row++)
 		 for (int col = 0; col < MWIDTH; col++)
 			map[col][row] = 0;
+		image = i;
+		
 	}
 	
 	public int width()
@@ -95,6 +102,6 @@ public class GameGrid {
 		for (int row = 0; row < MHEIGHT; row++)
 		 for (int col = col1; col <= col2; col++)
 			if (map[col][row] == 1)
-				gc.fillRect(col*CELLSIZE-GameMain.vleft, row*CELLSIZE, CELLSIZE, CELLSIZE);
+				gc.drawImage(image, col*CELLSIZE-GameMain.vleft, row*CELLSIZE, CELLSIZE, CELLSIZE);
 	}
 }

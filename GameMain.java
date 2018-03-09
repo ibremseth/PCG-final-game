@@ -10,9 +10,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -23,15 +26,24 @@ public class GameMain extends Application  {
 	final int FPS = 25; // frames per second
 	final static int VWIDTH = 800;
 	final static int VHEIGHT = 600;
+	final static int BWIDTH = 1500;
 	public static final int SCROLL = 150;  // Set edge limit for scrolling
 	public static int vleft = 0;	// Pixel coord of left edge of viewable
 	
+	boolean transition = true;
+	int transitionindex = 0;
+	int transitioncounter = 500;
+	boolean blink = true;
+	int blinkcounter = 20;
+	
 	GameGrid grid;
+	Image background;
+	Image block;
 	Hero h;
 	Powerup p[];
 	BadGuy bg[];
 	GraphicsContext gc;
-	int level = 2;
+	int level = 1;
 	
 	/**
 	 * Set up initial data structures/values
@@ -39,7 +51,11 @@ public class GameMain extends Application  {
 
 	void initialize()
 	{
-		Level l = new Level(level);
+
+		background = new Image("background.png");
+		block = new Image("block.png");
+		
+		Level l = new Level(level, block);
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
@@ -47,11 +63,63 @@ public class GameMain extends Application  {
 	}
 	
 	void resetLevel() {
-		Level l = new Level(level);
+		Level l = new Level(level, block);
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
 		h = h.resetHero(100, 400, grid);
+	}
+
+	void renderTransisionScreen(GraphicsContext gc, int s) {
+		gc.setFill(Color.CYAN);
+		gc.fillRect(0, 0, VWIDTH, VHEIGHT);
+		Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
+		gc.setFont(theFont);
+		
+		String str;
+		
+		switch(s) {
+		case -2:
+			gc.setFill(Color.BLACK);
+			str = "YOU LOST THE GAME";
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText(str, (VWIDTH/2), 200.0);
+			break;
+		case -1:
+			gc.setFill(Color.BLACK);
+			str = "You lost a life!";
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText(str, (VWIDTH/2), 200.0);
+			break;
+		case 0:
+			gc.setFill(Color.BLACK);
+			str = "Welcome to Wizard Warriors 2: The Awakening!";
+			String str2 = "You are a wizard on your way to your Annual Wizard Convention.";
+			String str3 = "Unfortunately there are many obstacles in your way, but with the powers";
+			String str4 = "you get from mysterious glowing orbs you can do this!";
+			gc.setTextAlign(TextAlignment.CENTER);
+			gc.fillText(str, (VWIDTH/2), 150);
+			Font theWelcomeFont = Font.font("Helvetica", FontWeight.BOLD, 15);
+			gc.setFont(theWelcomeFont);
+			gc.fillText(str2, (VWIDTH/2), 200);
+			gc.fillText(str3, (VWIDTH/2), 250);
+			gc.fillText(str4, (VWIDTH/2), 300);
+			
+			if(blinkcounter-- < 0) {
+				blink = !blink;
+				blinkcounter = 20;
+			}
+			if(blink) {
+				String blinkString = "PRESS SPACE TO SKIP";
+				Font theBlinkFont = Font.font("Helvetica", FontWeight.BOLD, 18);
+				gc.setFont(theBlinkFont);
+				gc.setFill(Color.YELLOW);
+				gc.fillText(blinkString, (VWIDTH/2), 400);
+			}
+		default:
+			
+			break;
+		}
 	}
 	
 	void setHandlers(Scene scene)
@@ -68,6 +136,10 @@ public class GameMain extends Application  {
 							break;
 						case "UP" :
 							h.jump(false);
+							break;
+						case "SPACE" :
+							transition = false;
+							transitioncounter = 25;
 							break;
 						default:
 							break;
@@ -103,7 +175,7 @@ public class GameMain extends Application  {
 			if(i.pickup(h.collisionBox())) {
 				if(i.type == Powerup.ENDLEVEL) {
 					level++;
-					initialize();
+					resetLevel();
 				} else {
 					h.getPowerup(i);
 				}
@@ -112,10 +184,15 @@ public class GameMain extends Application  {
 		for(BadGuy b : bg) {
 			b.update();
 			if(b.kills(h)) {
+				transition = true;
 				if(h.die()) {
+					
 					level = 1;
+					transitionindex = -2;
 					initialize();
+					return;
 				} 
+				transitionindex = -1;
 				resetLevel();
 			}
 		}
@@ -143,9 +220,22 @@ public class GameMain extends Application  {
 	 *  Draw the game world
 	 */
 	void render(GraphicsContext gc) {
+		if(transition) {
+			if(transitioncounter-- > 0) {
+				renderTransisionScreen(gc, transitionindex);
+				return;
+			} else {
+				transition = false;
+				transitioncounter = 25;
+			}
+		}
+		
 		// fill background
-		gc.setFill(Color.CYAN);
-		gc.fillRect(0, 0, VWIDTH, VHEIGHT);
+		//gc.setFill(Color.CYAN);
+		//gc.fillRect(0, 0, VWIDTH, VHEIGHT);
+		int cut = (vleft/2) % BWIDTH;
+		gc.drawImage(background, -cut, 0);
+		gc.drawImage(background, BWIDTH-cut, 0);
 		
 		gc.setFill(Color.RED);
 		for(int i = 0; i <= h.lives; i++) {
@@ -153,6 +243,8 @@ public class GameMain extends Application  {
 		}
 		
 		gc.setFill(Color.BLACK);
+		Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
+		gc.setFont(theFont);
 		gc.fillText("Level "+level, VWIDTH-100, 30);
 		
 		grid.render(gc);
@@ -188,8 +280,6 @@ public class GameMain extends Application  {
 		root.getChildren().add(canvas);
 
 		gc = canvas.getGraphicsContext2D();
-		Font theFont = Font.font("Helvetica", FontWeight.BOLD, 24);
-		gc.setFont(theFont);
 
 		// Initial setup
 		initialize();

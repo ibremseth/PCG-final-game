@@ -5,13 +5,14 @@ package game;
 import javafx.geometry.BoundingBox;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 
 public class Hero {
 	
 	public double x,y;
 	public int power;
 	public int power_count;
-	public int width = 39;
+	public int width = 40;
 	public int height = 60;
 	public Color color;
 	public int dx = 0, dy = 0;
@@ -104,5 +105,10 @@ public class Hero {
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
 		gc.fillOval(x-GameMain.vleft, y, width, height);
+		
+		if(power != 0) {
+			gc.setFill(color);
+			gc.fillArc((GameMain.VWIDTH/2)-40, 20, 30, 30, 0, ((double)power_count)*(360.0/150.0), ArcType.ROUND);
+		}
 	}
 }

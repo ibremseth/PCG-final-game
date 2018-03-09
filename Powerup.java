@@ -10,9 +10,6 @@ import javafx.scene.text.FontWeight;
 
 public class Powerup {
 	
-	static boolean ENDLEVELinfo = false;
-	static boolean JUMPinfo = false;
-	static boolean ATTACKinfo = false;
 	public boolean firstType = false;
 	
 	public int x, y;
@@ -29,10 +26,11 @@ public class Powerup {
 	static final int JUMP = 2;
 	static final int ATTACK = 3;
 	
-	public Powerup(int place_x, int place_y, int t) {
+	public Powerup(int place_x, int place_y, int t, boolean first)  {
 		x = place_x;
 		y = place_y;
 		state = NORMAL;
+		firstType = first;
 		type = t;
 		switch(t) {
 		case JUMP:
@@ -42,7 +40,7 @@ public class Powerup {
 			color = Color.GOLD;
 			break;
 		case ATTACK:
-			color = Color.ORANGE;
+			color = Color.RED;
 			break;
 		default:
 			break;
@@ -81,26 +79,7 @@ public class Powerup {
 	}
 	
 	public void renderInfo(GraphicsContext gc) {
-		
-		switch(type) {
-		case ENDLEVEL:
-			if(!ENDLEVELinfo) {
-				firstType = true;
-			}
-			break;
-		case JUMP:
-			//System.out.println("HERE");
-			if(!JUMPinfo) {
-				firstType = true;
-			}
-			break;
-		case ATTACK:
-			if(!ATTACKinfo) {
-				firstType = true;
-			}
-			break;
-		}
-		
+
 		if(this.firstType) {
 			gc.setFill(Color.WHITE);
 			gc.setStroke(Color.BLACK);
@@ -116,19 +95,16 @@ public class Powerup {
 				s1 = "The Gold power up";
 				s2 = "transports you to";
 				s3 = "the next level!";
-				ENDLEVELinfo = true;
 				break;
 			case JUMP:
 				s1 = "The Green power up";
 				s2 = "lets you jump much";
 				s3 = "higher!";
-				JUMPinfo = true;
 				break;
 			case ATTACK:
-				s1 = "The Orange power";
-				s2 = "up lets you jump on";
+				s1 = "The Red power up";
+				s2 = "lets you jump on";
 				s3 = "monsters heads!";
-				ATTACKinfo = true;
 				break;
 			default:
 				s1 = "Should never get here";
@@ -139,9 +115,9 @@ public class Powerup {
 	
 			Font theFont = Font.font("Helvetica", FontWeight.NORMAL, 15);
 			gc.setFont(theFont);
-			gc.fillText(s1, (GameMain.VWIDTH/2)-70, 120);
-			gc.fillText(s2, (GameMain.VWIDTH/2)-70, 150);
-			gc.fillText(s3, (GameMain.VWIDTH/2)-70, 180);
+			gc.fillText(s1, (GameMain.VWIDTH/2), 120);
+			gc.fillText(s2, (GameMain.VWIDTH/2), 150);
+			gc.fillText(s3, (GameMain.VWIDTH/2), 180);
 			
 		}
 	}

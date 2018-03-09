@@ -59,7 +59,7 @@ public class BadGuy {
 	
 	public void render(GraphicsContext gc) {
 		if(alive) {
-			gc.setFill(Color.RED);
+			gc.setFill(Color.MAGENTA);
 			gc.fillRect(x-GameMain.vleft, y, width, height);
 		}
 	}

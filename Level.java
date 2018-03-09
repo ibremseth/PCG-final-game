@@ -1,13 +1,15 @@
 package game;
 
+import javafx.scene.image.Image;
+
 public class Level {
 
 	public Powerup p[];
 	public GameGrid g;
 	public BadGuy bg[];
 	
-	public Level(int lev) {			
-		g = new GameGrid();
+	public Level(int lev, Image img) {			
+		g = new GameGrid(img);
 		
 		// create floor
 		for (int i = 0; i < GameGrid.MWIDTH; i++)
@@ -16,8 +18,8 @@ public class Level {
 		switch(lev) {
 			case 1:
 				p = new Powerup[2];
-				p[0] = new Powerup(6,11,Powerup.JUMP);
-				p[1] = new Powerup(28,11,Powerup.ENDLEVEL);
+				p[0] = new Powerup(6,11,Powerup.JUMP, true);
+				p[1] = new Powerup(28,11,Powerup.ENDLEVEL, true);
 				
 				bg = new BadGuy[0];
 				
@@ -36,9 +38,9 @@ public class Level {
 				break;
 			case 2:
 				p = new Powerup[3];
-				p[0] = new Powerup(6,11,Powerup.ATTACK);
-				p[1] = new Powerup(20,10,Powerup.ATTACK);
-				p[2] = new Powerup(30,11,Powerup.ENDLEVEL);
+				p[0] = new Powerup(6,11,Powerup.ATTACK, true);
+				p[1] = new Powerup(20,10,Powerup.ATTACK, false);
+				p[2] = new Powerup(30,11,Powerup.ENDLEVEL, false);
 				
 				bg = new BadGuy[2];
 				bg[0] = new BadGuy(15*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
@@ -52,9 +54,9 @@ public class Level {
 				break;
 			case 3:
 				p = new Powerup[3];
-				p[0] = new Powerup(6,11,Powerup.ATTACK);
-				p[1] = new Powerup(11,9,Powerup.JUMP);
-				p[2] = new Powerup(24,11,Powerup.ENDLEVEL);
+				p[0] = new Powerup(6,11,Powerup.ATTACK, false);
+				p[1] = new Powerup(11,9,Powerup.JUMP, false);
+				p[2] = new Powerup(24,11,Powerup.ENDLEVEL, false);
 				
 				bg = new BadGuy[2];
 				bg[0] = new BadGuy(10*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
@@ -71,9 +73,9 @@ public class Level {
 				break;
 			default:
 				p = new Powerup[3];
-				p[0] = new Powerup(0,11,Powerup.JUMP);
-				p[1] = new Powerup(17,11,Powerup.JUMP);
-				p[2] = new Powerup(32,11,Powerup.JUMP);
+				p[0] = new Powerup(0,11,Powerup.JUMP, false);
+				p[1] = new Powerup(17,11,Powerup.JUMP, false);
+				p[2] = new Powerup(32,11,Powerup.JUMP, false);
 				
 				bg = new BadGuy[0];
 				
@@ -123,4 +125,5 @@ public class Level {
 	public BadGuy[] badguys() {
 		return bg;
 	}
+	
 }
