@@ -20,11 +20,13 @@ public class Hero {
 	public int dir = 0;
 	public int inair = 0;
 	public int lives;
-	Image wizard;
+	Image left;
+	Image right;
+	Image cur;
 	public GameGrid g;
 	static final int GRAVITY = 4;
 	
-	public Hero(int start_x, int start_y, GameGrid grid, Image wiz) {
+	public Hero(int start_x, int start_y, GameGrid grid, Image lwiz, Image rwiz) {
 		x = start_x;
 		y = start_y;
 		g = grid;
@@ -32,7 +34,9 @@ public class Hero {
 		power_count = 0;
 		dx = 10;
 		color = Color.BLUE;
-		wizard = wiz;
+		left = lwiz;
+		right = rwiz;
+		cur = right;
 		
 		lives = 2;
 	}
@@ -51,6 +55,11 @@ public class Hero {
 	
 	public void setDir(int d) {
 		dir = d;
+		if(dir > 0) {
+			cur = right;
+		} else if (dir < 0){
+			cur = left;
+		}
 	}
 	
 	public void jump(boolean override) {
@@ -107,7 +116,7 @@ public class Hero {
 
 	public void render(GraphicsContext gc) {
 		gc.setFill(color);
-		gc.drawImage(wizard, x-GameMain.vleft, y-50);
+		gc.drawImage(cur, x-GameMain.vleft-90, y-190);
 		
 		if(power != 0) {
 			gc.setFill(color);

@@ -55,14 +55,15 @@ public class GameMain extends Application  {
 
 		background = new Image("background.png");
 		block = new Image("block.png");
-		Image wiz = new Image("wizard.png", 70, 120, false, false);
+		Image lwiz = new Image("Left.png", 240, 400, false, false);
+		Image rwiz = new Image("Right.png", 240, 400, false, false);
 		goblin = new Image("goblin.png", 40, 80, false, false);
 		
 		Level l = new Level(level, block, goblin);
 		grid = l.grid();
 		p = l.powerups();
 		bg = l.badguys();
-		h = new Hero(100, 400, grid, wiz);
+		h = new Hero(100, 400, grid, lwiz, rwiz);
 	}
 	
 	void resetLevel() {
