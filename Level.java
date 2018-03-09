@@ -8,8 +8,8 @@ public class Level {
 	public GameGrid g;
 	public BadGuy bg[];
 	
-	public Level(int lev, Image img) {			
-		g = new GameGrid(img);
+	public Level(int lev, Image blkimg, Image bgimg) {			
+		g = new GameGrid(blkimg);
 		
 		// create floor
 		for (int i = 0; i < GameGrid.MWIDTH; i++)
@@ -43,8 +43,8 @@ public class Level {
 				p[2] = new Powerup(30,11,Powerup.ENDLEVEL, false);
 				
 				bg = new BadGuy[2];
-				bg[0] = new BadGuy(15*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
-				bg[1] = new BadGuy(23*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
+				bg[0] = new BadGuy(15*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g, bgimg);
+				bg[1] = new BadGuy(23*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g, bgimg);
 				
 				g.createBlock(12, 13);
 				g.createBlock(20, 13);
@@ -59,8 +59,8 @@ public class Level {
 				p[2] = new Powerup(24,11,Powerup.ENDLEVEL, false);
 				
 				bg = new BadGuy[2];
-				bg[0] = new BadGuy(10*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
-				bg[1] = new BadGuy(15*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g);
+				bg[0] = new BadGuy(10*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g, bgimg);
+				bg[1] = new BadGuy(15*GameGrid.CELLSIZE, 12*GameGrid.CELLSIZE, g, bgimg);
 
 				g.createBlock(8, 13);
 				g.createBlock(10, 10);
